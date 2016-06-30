@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>GPS Punch! </title>
+<script type="text/javascript" src="./js/jquery.js?ver=1.11.2"></script>
+<script>
+
+function getParams() {
+    var url   = location.href;
+    var parameters = url.split("?");
+    var paramArray = [];
+    if (parameters.length == 2) {
+        var params = parameters[1].split("&");
+        var paramsArray = [];
+        for ( i = 0; i < params.length; i++ ) {
+            pair = params[i].split("=");
+            paramsArray.push(pair[0]);
+            paramsArray[pair[0]] = pair[1];
+        }
+    }
+    return paramsArray;
+}
+jQuery(document).ready(function() {
+   var free_banner = "test_banner";
+   var plan_banner = "cyzen_afc_banner";
+   var free_url = "http://itunes.apple.com/jp/app/id381267532?mt=8";
+   var plan_url = "https://www.cyzen.cloud/afc/";
+   var params = getParams();
+   var type = (typeof params == 'undefined')? "" :params["type"];
+   var imgsrc_prefix= (type == 1)? plan_banner: free_banner;
+   var linksrc= (type == 1)? plan_url: free_url;
+   
+   var ua = {};
+   ua.name = window.navigator.userAgent.toLowerCase();
+   ua.isiPhone = ua.name.indexOf('iphone') >= 0;
+   ua.isiPad = ua.name.indexOf('ipad') >= 0;
+   ua.isiPadair2 = ua.name.indexOf('ipad air2') >= 0;
+   ua.isandroid = ua.name.indexOf('android') >= 0;
+   
+   var imgsrc_postfix = "_iphone.png";
+   if (ua.isiPadair2) {
+       imgsrc_postfix = "_ipadair2.png";
+   } else if (ua.isiPad) {
+       imgsrc_postfix = "_ipad.png";
+   } else if (ua.isandroid) {
+       imgsrc_postfix = "_android.png";                                     
+       linksrc= (type == 1)? "https://www.cyzen.cloud/afc/": "market://details?id=jp.co.redfox.recipe";        
+   }
+   jQuery("#img").attr("src", imgsrc_prefix + imgsrc_postfix);
+   jQuery("#link").attr("href", linksrc);
+   
+});
+
+</script>
+<style type="text/css">
+html,body, #link {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+#link {
+    display: block;
+}
+#img {
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    padding:0;
+}    
+</style>
+</head>
+<body>
+<a id="link" href="" >
+<image id="img" src=""/>
+</a>
+</div>
+</body>
+
